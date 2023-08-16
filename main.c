@@ -7,10 +7,16 @@
 int main(void)
 {
 	char command[100];
+	char *path[] = {NULL};
+	char *argv[2];
+	pid_t pid;
+
+	argv[1] = NULL;
 
 	while (1)
 	{
-		printf("($) ");
+		if (isatty(STDIN_FILENO))
+			printf("($) ");
 		if (fgets(command, sizeof(command), stdin) == NULL)
 		{
 			break;
@@ -21,6 +27,22 @@ int main(void)
 		{
 			break;
 		}
+
+		argv[0] = command;
+
+		pid = fork();
+		if (pid == 0)
+		{
+			if (execve(command, argv, path) == -1)
+			{
+				fprintf(stderr, "./shell: No such file or directory\n");
+				return (1);
+			}
+		}
+		else if (pid < 0)
+			fprintf(stderr, "Error: Fork failed\n");
+		else
+			wait(NULL);
 	}
 
 	return (0);
