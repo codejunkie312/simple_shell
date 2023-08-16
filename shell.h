@@ -8,4 +8,6 @@
 #include <sys/types.h>
 #include <string.h>
 
+char *find_path(char *command);
+
 #endif /* SHELL_H */

@@ -7,9 +7,8 @@
 int main(void)
 {
 	char command[100];
-	char *path[] = {NULL};
 	char *argv[100];
-	char *token;
+	char *token, *full_path;
 	int i;
 	pid_t pid;
 
@@ -24,7 +23,7 @@ int main(void)
 		command[strcspn(command, "\n")] = 0;
 		if (strcmp(command, "exit") == 0)
 			break;
-
+		
 		token = strtok(command, " ");
 		i = 0;
 		while (token != NULL)
@@ -35,20 +34,31 @@ int main(void)
 		}
 
 		argv[i] = NULL;
+		full_path = find_path(argv[0]);
+
+		if (full_path == NULL)
+		{
+			fprintf(stderr, "./hsh: No such file or directory\n");
+			continue;
+		}
 
 		pid = fork();
 		if (pid == 0)
 		{
-			if (execve(argv[0], argv, path) == -1)
+			if (execve(full_path, argv, NULL) == -1)
 			{
-				fprintf(stderr, "./shell: No such file or directory\n");
+				fprintf(stderr, "./hsh: Execution failed\n");
+				free(full_path);
 				return (1);
 			}
 		}
 		else if (pid < 0)
 			fprintf(stderr, "Error: Fork failed\n");
 		else
+		{
 			wait(NULL);
+		}
+		free(full_path);
 	}
 
 	return (0);
