@@ -23,6 +23,11 @@ int main(void)
 		command[strcspn(command, "\n")] = 0;
 		if (strcmp(command, "exit") == 0)
 			break;
+		else if (strcmp(command, "env") == 0)
+		{
+			print_env();
+			break;
+		}
 		
 		token = strtok(command, " ");
 		i = 0;

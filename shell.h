@@ -8,6 +8,9 @@
 #include <sys/types.h>
 #include <string.h>
 
+extern char **environ;
+
 char *find_path(char *command);
+void print_env(void);
 
 #endif /* SHELL_H */

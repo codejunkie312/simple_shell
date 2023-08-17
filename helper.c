@@ -22,3 +22,15 @@ char *find_path(char *command)
 	free(full_path);
 	return (NULL);
 }
+
+/**
+ * print_env - prints the environment variables
+ * Return: nothing
+ */
+void print_env(void)
+{
+	char **env;
+
+	for (env = environ; *env != 0; env++)
+		printf("%s\n", *env); 
+}
