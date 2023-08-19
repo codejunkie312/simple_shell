@@ -1,8 +1,8 @@
 #include "shell.h"
 
 static char buffer[BUFFER_SIZE];
-static int buffer_pos = 0;
-static int line_len = 0;
+static int buffer_pos;
+static int line_len;
 
 /**
  * find_path - find command in path env variable
@@ -70,4 +70,39 @@ char *_getline(FILE *stream)
 	line_len = buffer_pos;
 
 	return (buffer);
+}
+
+/**
+ * _strtok - tokenizes a string
+ * @str: string to tokenize
+ * @delim: delimiter
+ * Return: pointer to the next token
+ */
+char *_strtok(char *str, const char *delim)
+{
+	static char *save;
+	char *end;
+
+	if (str == NULL)
+		str = save;
+	if (*str == '\0')
+	{
+		save = str;
+		return (NULL);
+	}
+	str += strspn(str, delim);
+	if (*str == '\0')
+	{
+		save = str;
+		return (NULL);
+	}
+	end = str + strcspn(str, delim);
+	if (*end == '\0')
+	{
+		save = end;
+		return (str);
+	}
+	*end = '\0';
+	save = end + 1;
+	return (str);
 }

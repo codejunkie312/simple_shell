@@ -9,7 +9,7 @@ int main(void)
 	char *command;
 	char *argv[100];
 	char *token, *full_path;
-	int i;
+	int i, status;
 	pid_t pid;
 
 	argv[1] = NULL;
@@ -18,26 +18,31 @@ int main(void)
 		if (isatty(STDIN_FILENO))
 			printf("($) ");
 		command = _getline(stdin);
-		if (command == NULL)
-			break;
-		if (strcmp(command, "exit") == 0)
-			break;
-		else if (strcmp(command, "env") == 0)
-		{
-			print_env();
-			break;
-		}
 		
-		token = strtok(command, " ");
+		token = _strtok(command, " ");
 		i = 0;
 		while (token != NULL)
 		{
 			argv[i] = token;
 			i++;
-			token = strtok(NULL, " ");
+			token = _strtok(NULL, " ");
 		}
 
 		argv[i] = NULL;
+		if (command == NULL)
+			break;
+		if (strcmp(command, "exit") == 0)
+		{
+			status = 0;
+			if (argv[1] != NULL)
+				status = atoi(argv[1]);
+			exit(status);
+		}
+		else if (strcmp(command, "env") == 0)
+		{
+			print_env();
+			break;
+		}
 		full_path = find_path(argv[0]);
 
 		if (full_path == NULL)
