@@ -1,5 +1,9 @@
 #include "shell.h"
 
+static char buffer[BUFFER_SIZE];
+static int buffer_pos = 0;
+static int line_len = 0;
+
 /**
  * find_path - find command in path env variable
  * @command: user input
