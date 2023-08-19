@@ -16,10 +16,14 @@ char *find_path(char *command)
 	{
 		sprintf(full_path, "%s/%s", path, command);
 		if (access(full_path, X_OK) == 0)
+		{
+			free(PATH);
 			return (full_path);
+		}
 		path = strtok(NULL, ":");
 	}
 	free(full_path);
+	free(PATH);
 	return (NULL);
 }
 
@@ -32,5 +36,34 @@ void print_env(void)
 	char **env;
 
 	for (env = environ; *env != 0; env++)
-		printf("%s\n", *env); 
+		printf("%s\n", *env);
+}
+
+/**
+ * _getline - reads line from file stream
+ * @stream: the stream file to read from
+ * Return: length of the line
+ */
+char *_getline(FILE *stream)
+{
+	int c;
+
+	buffer_pos = 0;
+
+	while ((c = fgetc(stream)) != EOF && c != '\n')
+	{
+		if (buffer_pos + 1 >= BUFFER_SIZE)
+		{
+			fprintf(stderr, "Line exceeds buffer size\n");
+			return (NULL);
+		}
+		buffer[buffer_pos++] = c;
+	}
+
+	if (buffer_pos == 0 && c == EOF)
+		return (NULL);
+	buffer[buffer_pos] = '\0';
+	line_len = buffer_pos;
+
+	return (buffer);
 }

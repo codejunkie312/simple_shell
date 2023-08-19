@@ -2,11 +2,11 @@
 
 /**
  * main - Toggles a shell interperter
- * Return: void
+ * Return: 1 if failed, 0 if successful
  */
 int main(void)
 {
-	char command[100];
+	char *command;
 	char *argv[100];
 	char *token, *full_path;
 	int i;
@@ -17,10 +17,9 @@ int main(void)
 	{
 		if (isatty(STDIN_FILENO))
 			printf("($) ");
-		if (fgets(command, sizeof(command), stdin) == NULL)
+		command = _getline(stdin);
+		if (command == NULL)
 			break;
-
-		command[strcspn(command, "\n")] = 0;
 		if (strcmp(command, "exit") == 0)
 			break;
 		else if (strcmp(command, "env") == 0)
