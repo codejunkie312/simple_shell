@@ -41,7 +41,7 @@ int main(void)
 		else if (strcmp(command, "env") == 0)
 		{
 			print_env();
-			break;
+			continue;
 		}
 		full_path = find_path(argv[0]);
 

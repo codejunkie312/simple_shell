@@ -1,8 +1,9 @@
 #include "shell.h"
 
-static char buffer[BUFFER_SIZE];
-static int buffer_pos;
-static int line_len;
+static char buffer[BUFFER_SIZE]; //used by _getline
+static int buffer_pos; //used by _getline
+static int line_len; //used by _getline
+static char *save; //used by _strtok
 
 /**
  * find_path - find command in path env variable
@@ -80,7 +81,6 @@ char *_getline(FILE *stream)
  */
 char *_strtok(char *str, const char *delim)
 {
-	static char *save;
 	char *end;
 
 	if (str == NULL)
