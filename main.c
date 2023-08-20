@@ -43,6 +43,40 @@ int main(void)
 			print_env();
 			continue;
 		}
+		else if (strcmp(argv[0], "setenv") == 0)
+		{
+			if (argv[1] == NULL || argv[2] == NULL)
+			{
+				fprintf(stderr, "Usage: setenv VARIABLE VALUE\n");
+				continue;
+			}
+			else
+			{
+				if (setenv(argv[1], argv[2], 1) != 0)
+				{
+					fprintf(stderr, "Failed to set environment variable\n");
+					continue;
+				}
+				continue;
+			}
+		}
+		else if (strcmp(argv[0], "unsetenv") == 0)
+		{
+			if (argv[1] == NULL)
+			{
+				fprintf(stderr, "Usage: unsetenv VARIABLE\n");
+				continue;
+			}
+			else
+			{
+				if (unsetenv(argv[1]) != 0)
+				{
+					fprintf(stderr, "Failed to unset environment variable\n");
+					continue;
+				}
+				continue;
+			}
+		}
 		full_path = find_path(argv[0]);
 
 		if (full_path == NULL)
