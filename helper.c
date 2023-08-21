@@ -4,6 +4,7 @@ static char buffer[BUFFER_SIZE]; /* used by _getline */
 static int buffer_pos; /* used by _getline */
 static int line_len; /* used by _getline */
 static char *save; /* used by _strtok */
+static char *save1; /* used by _strtok1 */
 
 /**
  * find_path - find command in path env variable
@@ -104,5 +105,39 @@ char *_strtok(char *str, const char *delim)
 	}
 	*end = '\0';
 	save = end + 1;
+	return (str);
+}
+
+/**
+ * _strtok1 - tokenizes a string
+ * @str: string to tokenize
+ * @delim: delimiter
+ * Return: pointer to the next token
+ */
+char *_strtok1(char *str, const char *delim)
+{
+	char *end;
+
+	if (str == NULL)
+		str = save1;
+	if (*str == '\0')
+	{
+		save1 = str;
+		return (NULL);
+	}
+	str += strspn(str, delim);
+	if (*str == '\0')
+	{
+		save1 = str;
+		return (NULL);
+	}
+	end = str + strcspn(str, delim);
+	if (*end == '\0')
+	{
+		save1 = end;
+		return (str);
+	}
+	*end = '\0';
+	save1 = end + 1;
 	return (str);
 }
