@@ -7,6 +7,7 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <string.h>
+#include <limits.h>
 
 #define BUFFER_SIZE 1024
 extern char **environ;

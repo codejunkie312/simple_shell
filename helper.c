@@ -1,9 +1,9 @@
 #include "shell.h"
 
-static char buffer[BUFFER_SIZE]; //used by _getline
-static int buffer_pos; //used by _getline
-static int line_len; //used by _getline
-static char *save; //used by _strtok
+static char buffer[BUFFER_SIZE]; /* used by _getline */
+static int buffer_pos; /* used by _getline */
+static int line_len; /* used by _getline */
+static char *save; /* used by _strtok */
 
 /**
  * find_path - find command in path env variable

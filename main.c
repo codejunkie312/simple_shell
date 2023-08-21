@@ -8,14 +8,16 @@ int main(void)
 {
 	char *command;
 	char *argv[100];
-	char *token, *full_path;
+	char *pwd;
+	char *token, *full_path, *new_dir, old_dir[BUFFER_SIZE], new_pwd[BUFFER_SIZE], temp[PATH_MAX];
 	int i, status;
 	pid_t pid;
 
 	while (1)
 	{
+		pwd = getenv("PWD");
 		if (isatty(STDIN_FILENO))
-			printf("($) ");
+			printf("($) %s ", pwd);
 		command = _getline(stdin);
 		
 		token = _strtok(command, " ");
@@ -75,6 +77,31 @@ int main(void)
 				}
 				continue;
 			}
+		}
+		else if (strcmp(argv[0], "cd") == 0)
+		{
+			new_dir = argv[1];
+			getcwd(old_dir, sizeof(old_dir));
+
+			if (new_dir == NULL)
+				new_dir = getenv("HOME");
+			else if (strcmp(new_dir, "-") == 0)
+				new_dir = getenv("OLDPWD");
+			else if (new_dir[0] != '/')
+			{
+				snprintf(temp, sizeof(temp), "%s/%s", old_dir, new_dir);
+				new_dir = temp;
+			}
+			
+			if (chdir(new_dir) != 0)
+				perror("cd");
+			else
+			{
+				getcwd(new_pwd, sizeof(new_pwd));
+				setenv("PWD", new_pwd, 1);
+				setenv("OLDPWD", old_dir, 1);
+			}
+			continue;
 		}
 		full_path = find_path(argv[0]);
 
