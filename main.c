@@ -19,6 +19,8 @@ int main(void)
 		if (isatty(STDIN_FILENO))
 			printf("($) %s ", pwd);
 		command = _getline(stdin);
+		if (command == NULL)
+			continue;
 		
 		token = _strtok(command, " ");
 		i = 0;

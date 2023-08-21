@@ -65,7 +65,7 @@ char *_getline(FILE *stream)
 		buffer[buffer_pos++] = c;
 	}
 
-	if (buffer_pos == 0 && c == EOF)
+	if (buffer_pos == 0 && (c == EOF || c == '\n'))
 		return (NULL);
 	buffer[buffer_pos] = '\0';
 	line_len = buffer_pos;
