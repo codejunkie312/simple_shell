@@ -12,7 +12,6 @@ int main(void)
 	int i, status;
 	pid_t pid;
 
-	argv[1] = NULL;
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))

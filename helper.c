@@ -14,7 +14,7 @@ char *find_path(char *command)
 {
 	char *path_env = getenv("PATH");
 	char *PATH = strdup(path_env);
-	char *path = strtok(PATH, ":");
+	char *path = _strtok(PATH, ":");
 	char *full_path = malloc(1024);
 
 	while (path != NULL)
@@ -25,7 +25,7 @@ char *find_path(char *command)
 			free(PATH);
 			return (full_path);
 		}
-		path = strtok(NULL, ":");
+		path = _strtok(NULL, ":");
 	}
 	free(full_path);
 	free(PATH);
