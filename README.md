@@ -1,4 +1,4 @@
-# Simple_Shell
+#L Simple_Shell
 ## Functions used:
 ### find_path
 This is a function that iterates through a command variable to find it within the `PATH` environement variable
@@ -12,3 +12,6 @@ usage: char *_getline(FILE *stream)
 ### _strtok
 This function tokenizes the string that is read from the file stream into words called tokens
 usage: char *_strtok(char *str, const char *delim)
+### _strtok1
+This function also tokenizes a string into tokens
+usage: char *_strtok1(char *str, const char *delim)
