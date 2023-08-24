@@ -12,7 +12,7 @@ int command_loop(void)
 	{
 		pwd = getenv("PWD");
 		if (isatty(STDIN_FILENO))
-			printf("($) %s ", pwd);
+			_fprintf(stdin, "($) %s ", pwd);
 		command = _getline(stdin);
 		if (command == NULL)
 			continue;

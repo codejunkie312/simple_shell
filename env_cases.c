@@ -56,9 +56,9 @@ void cd_case(char *argv[])
 	getcwd(old_dir, sizeof(old_dir));
 
 	if (new_dir == NULL)
-		new_dir = getenv("HOME");
+		new_dir = _getenv("HOME");
 	else if (_strcmp(new_dir, "-") == 0)
-		new_dir = getenv("OLDPWD");
+		new_dir = _getenv("OLDPWD");
 	else if (new_dir[0] != '/')
 	{
 		_sprintf(temp, "%s/%s", old_dir, new_dir);

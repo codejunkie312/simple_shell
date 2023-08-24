@@ -35,8 +35,14 @@ void parse_command(char *command, char *argv[]);
 int handle_sepcial_commands(char *argv[]);
 void handle_command(char *command);
 void handle_logical_operators(char *command_iterator);
-char *_strtok2(char *str, const char *delim);
+char *_strtok2(char *str, char *delim);
 char *trim_spaces(char *str);
 void cd_case(char *argv[]);
+char *_getenv(char *name);
+unsigned int _strspn(char *s, char *accept);
+unsigned int _strcspn(char *s, char *accept);
+int _fprintf(FILE *stream, const char *format, ...);
+int _fputc(int c, FILE *stream);
+int _fputs(char *s, FILE *stream);
 
 #endif /* SHELL_H */

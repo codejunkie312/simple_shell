@@ -93,7 +93,9 @@ char *_strchr(char *s, char c)
 /**
  * _sprintf - prints a string to stdout
  * @str: string to print
- * Return: void
+ * @format: format of the string
+ * @...: arguments
+ * Return: number of chars printed
  */
 int _sprintf(char *str, const char *format, ...)
 {

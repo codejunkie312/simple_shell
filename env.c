@@ -71,3 +71,22 @@ int _unsetenv(char *name)
 		return (-1);
 	return (0);
 }
+
+/**
+ * _getenv - gets an environment variable
+ * @name: name of the variable
+ * Return: pointer to the value of the variable, NULL if not found
+ */
+char *_getenv(char *name)
+{
+	int i;
+
+	if (name == NULL || name[0] == '\0' || _strchr(name, '=') != NULL)
+		return (NULL);
+	for (i = 0; environ[i] != NULL; i++)
+	{
+		if (_strncmp(environ[i], name, _strlen(name)) == 0)
+			return (environ[i] + _strlen(name) + 1);
+	}
+	return (NULL);
+}
