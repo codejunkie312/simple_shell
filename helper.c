@@ -1,8 +1,5 @@
 #include "shell.h"
 
-static char buffer[BUFFER_SIZE]; /* used by _getline */
-static int buffer_pos; /* used by _getline */
-static int line_len; /* used by _getline */
 static char *save; /* used by _strtok */
 static char *save1; /* used by _strtok1 */
 
@@ -56,6 +53,8 @@ void print_env(void)
 char *_getline(FILE *stream)
 {
 	int c;
+	static char buffer[BUFFER_SIZE];
+	static int buffer_pos;
 
 	buffer_pos = 0;
 
@@ -74,7 +73,6 @@ char *_getline(FILE *stream)
 	if (buffer_pos == 0 && (c == EOF || c == '\n'))
 		return (NULL);
 	buffer[buffer_pos] = '\0';
-	line_len = buffer_pos;
 
 	return (buffer);
 }

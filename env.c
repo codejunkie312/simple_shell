@@ -29,6 +29,7 @@ int _setenv(char *name, const char *value, int overwrite)
 					return (-1);
 				_sprintf(new_var, "%s=%s", name, value);
 				environ[i] = new_var;
+				free(new_var);
 			}
 			break;
 		}
@@ -40,6 +41,7 @@ int _setenv(char *name, const char *value, int overwrite)
 			return (-1);
 		_sprintf(new_var, "%s=%s", name, value);
 		environ[i] = new_var;
+		free(new_var);
 		environ[i + 1] = NULL;
 	}
 	return (0);

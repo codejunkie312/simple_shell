@@ -41,10 +41,10 @@ int execute_command(char *command)
 	pid_t pid;
 
 	parse_command(command, argv);
-	full_path = find_path(argv[0]);
 
 	if (!handle_sepcial_commands(argv))
 	{
+		full_path = find_path(argv[0]);
 		if (full_path == NULL)
 		{
 			_fprintf(stderr, "%s: command not found\n", argv[0]);
@@ -57,6 +57,7 @@ int execute_command(char *command)
 			if (execve(full_path, argv, NULL) == -1)
 			{
 				perror("execve");
+				free(full_path);
 				exit(127);
 			}
 		}
@@ -67,8 +68,8 @@ int execute_command(char *command)
 		else
 		{
 			waitpid(pid, &status, 0);
-			free(full_path);
 		}
+		free(full_path);
 	}
 
 	return (status);
