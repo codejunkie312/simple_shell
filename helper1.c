@@ -14,9 +14,9 @@ int command_loop(void)
 		if (isatty(STDIN_FILENO))
 			printf("($) %s ", pwd);
 		command = _getline(stdin);
-		if (!command)
-			handle_command(command);
-		free(command);
+		if (command == NULL)
+			continue;
+		handle_command(command);
 	}
 	return (0);
 }
@@ -30,15 +30,18 @@ int execute_command(char *command)
 {
 	char *argv[100];
 	int status = 0;
+	char *full_path;
 	pid_t pid;
 
 	parse_command(command, argv);
+	full_path = find_path(argv[0]);
+
 	if (!handle_sepcial_commands(argv))
 	{
 		pid = fork();
 		if (pid == 0)
 		{
-			if (execve(argv[0], argv, environ) == -1)
+			if (execve(full_path, argv, NULL) == -1)
 			{
 				perror("execve");
 				exit(127);
