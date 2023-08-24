@@ -10,7 +10,7 @@ int command_loop(void)
 
 	while (1)
 	{
-		pwd = getenv("PWD");
+		pwd = _getenv("PWD");
 		if (isatty(STDIN_FILENO))
 			_fprintf(stdin, "($) %s ", pwd);
 		command = _getline(stdin);
