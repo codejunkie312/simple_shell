@@ -15,7 +15,10 @@ int command_loop(void)
 			_fprintf(stdin, "($) %s ", pwd);
 		command = _getline(stdin);
 		if (command == NULL)
+		{
+			_fprintf(stdin, "\n");
 			break;
+		}
 		else if (_strcmp(command, "No_command") == 0)
 			continue;
 
