@@ -52,3 +52,39 @@ int _fputs(char *s, FILE *stream)
 	return (write(stream->_fileno, s, _strlen(s)));
 }
 
+/**
+ * _strdup - duplicates a string
+ * @str: string to duplicate
+ * Return: pointer to the new string
+ */
+char *_strdup(char *str)
+{
+	char *dup;
+	int i, len;
+
+	if (str == NULL)
+		return (NULL);
+	len = _strlen(str);
+	dup = malloc(sizeof(char) * (len + 1));
+	if (dup == NULL)
+		return (NULL);
+	for (i = 0; i < len; i++)
+		dup[i] = str[i];
+	dup[i] = '\0';
+	return (dup);
+}
+
+/**
+ * _fgetc - reads a character from a stream
+ * @stream: stream to read from
+ * Return: character read
+ */
+int _fgetc(FILE *stream)
+{
+	char c;
+
+	if (read(stream->_fileno, &c, 1) == 0)
+		return (EOF);
+	return (c);
+}
+

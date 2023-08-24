@@ -6,15 +6,22 @@
  */
 int command_loop(void)
 {
-	char *command, *pwd;
+	char *command, *pwd, *new_line;
 
 	while (1)
 	{
 		pwd = _getenv("PWD");
 		if (isatty(STDIN_FILENO))
 			_fprintf(stdin, "($) %s ", pwd);
-		if ((command = _getline(stdin)) == NULL)
+		command = _getline(stdin);
+		if (command == NULL)
 			break;
+		else if (_strcmp(command, "No_command") == 0)
+			continue;
+
+		new_line = _strchr(command, '\n');
+		if (new_line != NULL)
+			*new_line = '\0';
 
 		handle_command(command);
 	}
@@ -35,15 +42,15 @@ int execute_command(char *command)
 
 	parse_command(command, argv);
 	full_path = find_path(argv[0]);
-	if (full_path == NULL)
-	{
-		_fprintf(stderr, "%s: command not found\n", argv[0]);
-		free(full_path);
-		return (127);
-	}
 
 	if (!handle_sepcial_commands(argv))
 	{
+		if (full_path == NULL)
+		{
+			_fprintf(stderr, "%s: command not found\n", argv[0]);
+			free(full_path);
+			return (127);
+		}
 		pid = fork();
 		if (pid == 0)
 		{

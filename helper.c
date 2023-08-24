@@ -13,14 +13,14 @@ static char *save1; /* used by _strtok1 */
  */
 char *find_path(char *command)
 {
-	char *path_env = getenv("PATH");
-	char *PATH = strdup(path_env);
+	char *path_env = _getenv("PATH");
+	char *PATH = _strdup(path_env);
 	char *path = _strtok(PATH, ":");
 	char *full_path = malloc(1024);
 
 	while (path != NULL)
 	{
-		sprintf(full_path, "%s/%s", path, command);
+		_sprintf(full_path, "%s/%s", path, command);
 		if (access(full_path, X_OK) == 0)
 		{
 			free(PATH);
@@ -39,10 +39,13 @@ char *find_path(char *command)
  */
 void print_env(void)
 {
-	char **env;
+	int i;
 
-	for (env = environ; *env != 0; env++)
-		printf("%s\n", *env);
+	for (i = 0; environ[i] != NULL; i++)
+	{
+		_fprintf(stdout, "%s\n", environ[i]);
+	}
+
 }
 
 /**
@@ -56,15 +59,17 @@ char *_getline(FILE *stream)
 
 	buffer_pos = 0;
 
-	while ((c = fgetc(stream)) != EOF && c != '\n')
+	while ((c = _fgetc(stream)) != EOF && c != '\n')
 	{
 		if (buffer_pos + 1 >= BUFFER_SIZE)
 		{
-			fprintf(stderr, "Line exceeds buffer size\n");
+			_fprintf(stderr, "buffer overflow\n");
 			return (NULL);
 		}
 		buffer[buffer_pos++] = c;
 	}
+	if (buffer_pos == 0 && c != EOF)
+		return ("No_command");
 
 	if (buffer_pos == 0 && (c == EOF || c == '\n'))
 		return (NULL);
@@ -80,7 +85,7 @@ char *_getline(FILE *stream)
  * @delim: delimiter
  * Return: pointer to the next token
  */
-char *_strtok(char *str, const char *delim)
+char *_strtok(char *str, char *delim)
 {
 	char *end;
 
@@ -91,13 +96,13 @@ char *_strtok(char *str, const char *delim)
 		save = str;
 		return (NULL);
 	}
-	str += strspn(str, delim);
+	str += _strspn(str, delim);
 	if (*str == '\0')
 	{
 		save = str;
 		return (NULL);
 	}
-	end = str + strcspn(str, delim);
+	end = str + _strcspn(str, delim);
 	if (*end == '\0')
 	{
 		save = end;
@@ -114,7 +119,7 @@ char *_strtok(char *str, const char *delim)
  * @delim: delimiter
  * Return: pointer to the next token
  */
-char *_strtok1(char *str, const char *delim)
+char *_strtok1(char *str, char *delim)
 {
 	char *end;
 
@@ -125,13 +130,13 @@ char *_strtok1(char *str, const char *delim)
 		save1 = str;
 		return (NULL);
 	}
-	str += strspn(str, delim);
+	str += _strspn(str, delim);
 	if (*str == '\0')
 	{
 		save1 = str;
 		return (NULL);
 	}
-	end = str + strcspn(str, delim);
+	end = str + _strcspn(str, delim);
 	if (*end == '\0')
 	{
 		save1 = end;

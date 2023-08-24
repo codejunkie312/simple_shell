@@ -16,8 +16,8 @@ extern char **environ;
 char *find_path(char *command);
 void print_env(void);
 char *_getline(FILE *stream);
-char *_strtok(char *str, const char *delim);
-char *_strtok1(char *str, const char *delim);
+char *_strtok(char *str, char *delim);
+char *_strtok1(char *str, char *delim);
 int _strcmp(char *s1, char *s2);
 int _strncmp(char *s1, char *s2, int n);
 int _atoi(char *s);
@@ -44,5 +44,8 @@ unsigned int _strcspn(char *s, char *accept);
 int _fprintf(FILE *stream, const char *format, ...);
 int _fputc(int c, FILE *stream);
 int _fputs(char *s, FILE *stream);
+char *_strdup(char *str);
+int _fgetc(FILE *stream);
+
 
 #endif /* SHELL_H */
