@@ -15,8 +15,7 @@ int command_loop(void)
 			_fprintf(stdin, "($) %s ", pwd);
 		if ((command = _getline(stdin)) == NULL)
 			break;
-		if (command == NULL)
-			continue;
+
 		handle_command(command);
 	}
 	return (0);
@@ -39,6 +38,7 @@ int execute_command(char *command)
 	if (full_path == NULL)
 	{
 		_fprintf(stderr, "%s: command not found\n", argv[0]);
+		free(full_path);
 		return (127);
 	}
 
@@ -60,6 +60,7 @@ int execute_command(char *command)
 		else
 		{
 			waitpid(pid, &status, 0);
+			free(full_path);
 		}
 	}
 
