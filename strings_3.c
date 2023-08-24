@@ -38,7 +38,7 @@ unsigned int _strcspn(char *s, char *accept)
  */
 int _fputc(int c, FILE *stream)
 {
-	return (write(stream->_file, &c, 1));
+	return (write(stream->_fileno, &c, 1));
 }
 
 /**
@@ -49,6 +49,6 @@ int _fputc(int c, FILE *stream)
  */
 int _fputs(char *s, FILE *stream)
 {
-	return (write(stream->_file, s, _strlen(s)));
+	return (write(stream->_fileno, s, _strlen(s)));
 }
 

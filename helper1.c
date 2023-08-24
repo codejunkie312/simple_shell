@@ -36,6 +36,11 @@ int execute_command(char *command)
 
 	parse_command(command, argv);
 	full_path = find_path(argv[0]);
+	if (full_path == NULL)
+	{
+		_fprintf(stderr, "%s: command not found\n", argv[0]);
+		return (127);
+	}
 
 	if (!handle_sepcial_commands(argv))
 	{
