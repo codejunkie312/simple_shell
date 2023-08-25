@@ -15,6 +15,21 @@ char *find_path(char *command)
 	char *path = _strtok(PATH, ":");
 	char *full_path = malloc(1024);
 
+	if (_strchr(command, '/') != NULL || _strchr(command, '.') != NULL)
+	{
+		if (access(command, X_OK) == 0)
+		{
+			free(PATH);
+			return (command);
+		}
+		else
+		{
+			free(PATH);
+			free(full_path);
+			return (NULL);
+		}
+	}
+
 	while (path != NULL)
 	{
 		_sprintf(full_path, "%s/%s", path, command);

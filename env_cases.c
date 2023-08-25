@@ -47,31 +47,26 @@ void unsetenv_case(char *argv[])
  */
 void cd_case(char *argv[])
 {
-	char *new_dir;
-	char old_dir[1024];
-	char new_pwd[1024];
-	char temp[1024];
+	char *dest, *cwd;
 
-	new_dir = argv[1];
-	getcwd(old_dir, sizeof(old_dir));
-
-	if (new_dir == NULL)
-		new_dir = _getenv("HOME");
-	else if (_strcmp(new_dir, "-") == 0)
-		new_dir = _getenv("OLDPWD");
-	else if (new_dir[0] != '/')
+	dest = argv[1] ? argv[1] : _getenv("HOME");
+	if (dest[0] == '-' && dest[1] == '\0')
 	{
-		_sprintf(temp, "%s/%s", old_dir, new_dir);
-		new_dir = temp;
+		if (_getenv("OLDPWD"))
+			dest = _getenv("OLDPWD");
+		else
+		{
+			perror("cd: OLDPWD not set");
+			exit(1);
+		}
 	}
-
-	if (chdir(new_dir) != 0)
+	if (chdir(dest) != 0)
 		perror("cd");
 	else
 	{
-		getcwd(new_pwd, sizeof(new_pwd));
-		_setenv("PWD", new_pwd, 1);
-		_setenv("OLDPWD", old_dir, 1);
+		cwd = getcwd(NULL, 0);
+		if (_setenv("OLDPWD", _getenv("PWD"), 1) != 0 || _setenv("PWD", cwd, 1) != 0)
+			perror("cd");
+		free(cwd);
 	}
 }
-

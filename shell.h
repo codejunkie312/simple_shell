@@ -21,9 +21,9 @@ char *_strtok1(char *str, char *delim);
 int _strcmp(char *s1, char *s2);
 int _strncmp(char *s1, char *s2, int n);
 int _atoi(char *s);
-int _setenv(char *name, const char *value, int overwrite);
+int _setenv(char *name, char *value, int overwrite);
 int _unsetenv(char *name);
-int _strlen(const char *s);
+int _strlen(char *s);
 char *_strchr(char *s, char c);
 int _sprintf(char *str, const char *format, ...);
 char *_strcpy(char *dest, char *src);
@@ -46,6 +46,7 @@ int _fputc(int c, FILE *stream);
 int _fputs(char *s, FILE *stream);
 char *_strdup(char *str);
 int _fgetc(FILE *stream);
+char *_strcat(char *dest, char *src);
 
 
 #endif /* SHELL_H */

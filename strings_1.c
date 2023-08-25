@@ -55,18 +55,14 @@ int _atoi(char *s)
  * Return: an int
  */
 
-int _strlen(const char *s)
+int _strlen(char *s)
 {
-	int len;
+	int i;
 
-	len = 0;
-	while (*s != '\0')
-	{
-		len++;
-		s++;
-	}
-
-	return (len);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
 
 /**

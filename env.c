@@ -7,16 +7,15 @@
  * @overwrite: overwrite flag
  * Return: 0 on success, -1 on failure
  */
-int _setenv(char *name, const char *value, int overwrite)
+int _setenv(char *name, char *value, int overwrite)
 {
-	char *new_var;
-	int i, len, found = 0;
+	int i, found = 0;
+	char *newvar;
 
 	if (name == NULL || name[0] == '\0' || _strchr(name, '=') != NULL)
 		return (-1);
 	if (value == NULL)
 		value = "";
-	len = _strlen(value);
 	for (i = 0; environ[i] != NULL; i++)
 	{
 		if (_strncmp(environ[i], name, _strlen(name)) == 0)
@@ -24,24 +23,26 @@ int _setenv(char *name, const char *value, int overwrite)
 			found = 1;
 			if (overwrite)
 			{
-				new_var = malloc(_strlen(name) + len + 2);
-				if (new_var == NULL)
+				newvar = malloc(_strlen(name) + _strlen(value) + 2);
+				if (newvar == NULL)
 					return (-1);
-				_sprintf(new_var, "%s=%s", name, value);
-				environ[i] = new_var;
-				free(new_var);
+				_strcpy(newvar, name);
+				_strcat(newvar, "=");
+				_strcat(newvar, value);
+				environ[i] = newvar;
 			}
 			break;
 		}
 	}
 	if (!found)
 	{
-		new_var = malloc(_strlen(name) + len + 2);
-		if (new_var == NULL)
+		newvar = malloc(_strlen(name) + _strlen(value) + 2);
+		if (newvar == NULL)
 			return (-1);
-		_sprintf(new_var, "%s=%s", name, value);
-		environ[i] = new_var;
-		free(new_var);
+		_strcpy(newvar, name);
+		_strcat(newvar, "=");
+		_strcat(newvar, value);
+		environ[i] = newvar;
 		environ[i + 1] = NULL;
 	}
 	return (0);

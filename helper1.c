@@ -51,7 +51,6 @@ int execute_command(char *command)
 		if (full_path == NULL)
 		{
 			_fprintf(stderr, "%s: command not found\n", argv[0]);
-			free(full_path);
 			return (127);
 		}
 		pid = fork();
@@ -72,7 +71,7 @@ int execute_command(char *command)
 		{
 			waitpid(pid, &status, 0);
 		}
-		free(full_path);
+
 	}
 
 	return (status);
@@ -111,7 +110,15 @@ int handle_sepcial_commands(char *argv[])
 	{
 		status = 0;
 		if (argv[1] != NULL)
+		{
 			status = _atoi(argv[1]);
+			if (status < 0)
+			{
+				_fprintf(stderr, "%s: %d: exit: Illegal number: %s\n",
+				argv[0], getpid(), argv[1]);
+				return (2);
+			}
+		}
 		exit(status);
 	}
 	else if (_strcmp(argv[0], "env") == 0)

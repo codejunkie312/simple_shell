@@ -88,3 +88,4 @@ int _fgetc(FILE *stream)
 	return (c);
 }
 
+
