@@ -40,23 +40,23 @@ int execute_command(char *command)
 {
 	char *argv[100];
 	int status = 0;
-	char *full_path;
+	char *full_path = NULL;
 	pid_t pid;
 
 	parse_command(command, argv);
-
 	if (!handle_sepcial_commands(argv))
 	{
-		full_path = find_path(argv[0]);
-		if (full_path == NULL)
+		if (access(argv[0], X_OK) != 0)
+			full_path = find_path(argv[0]);
+		if (full_path == NULL && access(argv[0], X_OK) != 0)
 		{
-			_fprintf(stderr, "%s: command not found\n", argv[0]);
-			return (127);
+			_fprintf(stderr, "./hsh: 1: %s: not found\n", argv[0]);
+			return(127);
 		}
 		pid = fork();
 		if (pid == 0)
 		{
-			if (execve(full_path, argv, NULL) == -1)
+			if (execve(full_path ? full_path : command, argv, NULL) == -1)
 			{
 				perror("execve");
 				free(full_path);
@@ -64,16 +64,14 @@ int execute_command(char *command)
 			}
 		}
 		else if (pid < 0)
-		{
 			perror("fork");
-		}
 		else
 		{
 			waitpid(pid, &status, 0);
 		}
-
+		if (full_path)
+			free(full_path);
 	}
-
 	return (status);
 }
 
@@ -108,7 +106,6 @@ int handle_sepcial_commands(char *argv[])
 
 	if (argv[0] == NULL)
 		return (1);
-
 	if (_strcmp(argv[0], "exit") == 0)
 	{
 		status = 0;
