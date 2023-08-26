@@ -20,6 +20,7 @@ char *find_path(char *command)
 		if (access(command, X_OK) == 0)
 		{
 			free(PATH);
+			free(full_path);
 			return (command);
 		}
 		else
