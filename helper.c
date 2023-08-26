@@ -69,14 +69,14 @@ void print_env(void)
 char *_getline(FILE *stream)
 {
 	int c;
-	static char buffer[BUFFER_SIZE];
+	static char buffer[BUFFER_SIZE * 10];
 	static int buffer_pos;
 
 	buffer_pos = 0;
 
 	while ((c = _fgetc(stream)) != EOF && c != '\n')
 	{
-		if (buffer_pos + 1 >= BUFFER_SIZE)
+		if (buffer_pos + 1 >= (BUFFER_SIZE * 10))
 		{
 			_fprintf(stderr, "buffer overflow\n");
 			return (NULL);
