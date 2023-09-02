@@ -51,8 +51,10 @@ int execute_command(char *command)
 		if (full_path == NULL && access(argv[0], X_OK) != 0)
 		{
 			_fprintf(stderr, "./hsh: 1: %s: not found\n", argv[0]);
-			return(127);
+			return (127);
 		}
+		if (access(argv[1], X_OK) != 0)
+			status = 2;
 		pid = fork();
 		if (pid == 0)
 		{
@@ -66,9 +68,7 @@ int execute_command(char *command)
 		else if (pid < 0)
 			perror("fork");
 		else
-		{
 			waitpid(pid, &status, 0);
-		}
 		if (full_path)
 			free(full_path);
 	}
